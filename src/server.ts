@@ -1,24 +1,21 @@
-import express from "express";
 import dotenv from "dotenv";
-import transactionsRouter from "./routes/transaction.routes";
+import app from "./app";
 import connectDB from "./config/db";
-import { errorMiddleware } from "./middleware/error.middleware";
-import { loggerMiddleware } from "./middleware/logger.middleware";
 
 dotenv.config();
 
-const app = express();
-
-app.use(express.json());
-
 const PORT = process.env.PORT || 3000;
-app.use(loggerMiddleware);
 
-app.use("/api/transactions", transactionsRouter);
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server");
+    process.exit(1);
+  }
+};
 
-app.use(errorMiddleware);
-
-app.listen(PORT, async () => {
-  await connectDB();
-  console.log(`Server is running on the port:http://localhost:${PORT}`);
-});
+startServer();
