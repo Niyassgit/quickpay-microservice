@@ -15,8 +15,8 @@ export class TransactionService {
     const transaction = await Transaction.findById(transactionId);
     if (!transaction)
       throw new ApiError(
-        HttpStatusCode.BAD_REQUEST,
-        ErrorMessages.TRANSACTION_FAILED,
+        HttpStatusCode.NOT_FOUND,
+        ErrorMessages.TRANSACTION_NOT_FOUND,
       );
     return transaction;
   }
