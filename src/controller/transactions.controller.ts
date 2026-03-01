@@ -47,3 +47,17 @@ export const createTransaction = async (
     next(error);
   }
 };
+
+export const updateStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id as string;
+    const result = await transactionSchema.updatePaymentStatus(id);
+    return res.status(HttpStatusCode.OK).json({ success: true, data: result });
+  } catch (error) {
+    next(error);
+  }
+};
