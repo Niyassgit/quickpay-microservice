@@ -2,14 +2,19 @@ import express from "express";
 import dotenv from "dotenv";
 import transactionsRouter from "./routes/transaction.routes";
 import connectDB from "./config/db";
+import { errorMiddleware } from "./middleware/error.middleware";
 
 dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 
 app.use("/api/transactions", transactionsRouter);
+
+app.use(errorMiddleware);
 
 app.listen(PORT, async () => {
   await connectDB();
